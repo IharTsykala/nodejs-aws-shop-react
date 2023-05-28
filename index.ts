@@ -69,3 +69,15 @@ export class ITStaticSite extends Construct {
     });
   }
 }
+
+class MyStaticSiteStack extends cdk.Stack {
+  constructor(parent: cdk.App, name: string) {
+    super(parent, name);
+    new ITStaticSite(this, "ITStaticSite");
+  }
+}
+const app = new cdk.App();
+
+new MyStaticSiteStack(app, "MyITStaticSite");
+
+app.synth();
