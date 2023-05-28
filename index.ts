@@ -1,19 +1,9 @@
 import * as cdk from "aws-cdk-lib";
 
-// import {
-//   aws_cloudfront,
-//   aws_iam,
-//   aws_s3,
-//   aws_s3_deployment,
-//   App,
-//   Stack,
-// } from "aws-cdk-lib";
-
-import * as s3 from "@aws-cdk/aws-s3";
-import * as iam from "@aws-cdk/aws-iam";
 import * as cloudfront from "@aws-cdk/aws-cloudfront";
+import * as iam from "@aws-cdk/aws-iam";
+import * as s3 from "@aws-cdk/aws-s3";
 import * as s3deploy from "@aws-cdk/aws-s3-deployment";
-
 import * as cdkCore from "@aws-cdk/core";
 
 import { Construct, Stack } from "@aws-cdk/core";
