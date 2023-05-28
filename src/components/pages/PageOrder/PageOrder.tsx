@@ -60,7 +60,7 @@ export default function PageOrder() {
       return order.items.map((item: OrderItem) => {
         const product = products.find((p) => p.id === item.productId);
         if (!product) {
-          throw new Error("Product not found");
+          throw new Error("Hello front cloud");
         }
         return { product, count: item.count };
       });

@@ -17,6 +17,11 @@ export default function Products() {
 
   return (
     <Grid container spacing={4}>
+      {
+        <div style={{ display: "grid" }}>
+          <h3>Hello s3</h3> <h3> Hello CloudFront</h3>
+        </div>
+      }
       {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
       {data.map(({ count, ...product }, index) => (
         <Grid item key={product.id} xs={12} sm={6} md={4}>
