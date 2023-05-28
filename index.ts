@@ -1,47 +1,54 @@
 import * as cdk from "aws-cdk-lib";
-import { Construct } from "constructs";
 
-import {
-  aws_cloudfront,
-  aws_iam,
-  aws_s3,
-  aws_s3_deployment,
-} from "aws-cdk-lib";
+// import {
+//   aws_cloudfront,
+//   aws_iam,
+//   aws_s3,
+//   aws_s3_deployment,
+//   App,
+//   Stack,
+// } from "aws-cdk-lib";
+
+import * as s3 from "@aws-cdk/aws-s3";
+import * as iam from "@aws-cdk/aws-iam";
+import * as cloudfront from "@aws-cdk/aws-cloudfront";
+import * as s3deploy from "@aws-cdk/aws-s3-deployment";
+
+import * as cdkCore from "@aws-cdk/core";
+
+import { Construct, Stack } from "@aws-cdk/core";
 
 import { config } from "dotenv";
 config();
 
 export class ITStaticSite extends Construct {
-  constructor(parent: Construct, name: string) {
+  constructor(parent: Stack, name: string) {
     super(parent, name);
 
-    const cloudfrontOAI = new aws_cloudfront.OriginAccessIdentity(
-      this,
-      "IT-OAI"
-    );
+    const cloudfrontOAI = new cloudfront.OriginAccessIdentity(this, "IT-OAI");
 
-    const siteBucket = new aws_s3.Bucket(this, "IharTsykalaStaticBucket", {
-      bucketName: "task-2-cloudfront-s3-0.0.3",
+    const siteBucket = new s3.Bucket(this, "IharTsykalaStaticBucket", {
+      bucketName: "task-2-cloudfront",
       websiteIndexDocument: "index.html",
-      publicReadAccess: true,
+      publicReadAccess: false,
       autoDeleteObjects: true,
-      blockPublicAccess: aws_s3.BlockPublicAccess.BLOCK_ALL,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
     siteBucket.addToResourcePolicy(
-      new aws_iam.PolicyStatement({
+      new iam.PolicyStatement({
         actions: ["S3:GetObject"],
         resources: [siteBucket.arnForObjects("*")],
         principals: [
-          new aws_iam.CanonicalUserPrincipal(
+          new iam.CanonicalUserPrincipal(
             cloudfrontOAI.cloudFrontOriginAccessIdentityS3CanonicalUserId
           ),
         ],
       })
     );
 
-    const distribution = new aws_cloudfront.CloudFrontWebDistribution(
+    const distribution = new cloudfront.CloudFrontWebDistribution(
       this,
       "IT-distribution",
       {
@@ -61,8 +68,8 @@ export class ITStaticSite extends Construct {
       }
     );
 
-    new aws_s3_deployment.BucketDeployment(this, "IT-Bucket-Deployment", {
-      sources: [aws_s3_deployment.Source.asset("./dist")],
+    new s3deploy.BucketDeployment(this, "IT-Bucket-Deployment", {
+      sources: [s3deploy.Source.asset("./dist")],
       destinationBucket: siteBucket,
       distribution,
       distributionPaths: ["/*"],
@@ -70,13 +77,13 @@ export class ITStaticSite extends Construct {
   }
 }
 
-class MyStaticSiteStack extends cdk.Stack {
-  constructor(parent: cdk.App, name: string) {
+class MyStaticSiteStack extends Stack {
+  constructor(parent: cdkCore.App, name: string) {
     super(parent, name);
     new ITStaticSite(this, "ITStaticSite");
   }
 }
-const app = new cdk.App();
+const app = new cdkCore.App();
 
 new MyStaticSiteStack(app, "MyITStaticSite");
 
