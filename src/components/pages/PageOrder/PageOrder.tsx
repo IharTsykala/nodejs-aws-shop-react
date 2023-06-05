@@ -43,7 +43,7 @@ export default function PageOrder() {
       queryKey: "products",
       queryFn: async () => {
         const res = await axios.get<AvailableProduct[]>(
-          `${API_PATHS.bff}/product/available`
+          `${API_PATHS.bff}/products`
         );
         return res.data;
       },
@@ -60,7 +60,7 @@ export default function PageOrder() {
       return order.items.map((item: OrderItem) => {
         const product = products.find((p) => p.id === item.productId);
         if (!product) {
-          throw new Error("Product not found");
+          throw new Error("Hello front cloud");
         }
         return { product, count: item.count };
       });
