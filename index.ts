@@ -18,7 +18,7 @@ export class ITStaticSite extends Construct {
     const cloudfrontOAI = new cloudfront.OriginAccessIdentity(this, "IT-OAI");
 
     const siteBucket = new s3.Bucket(this, "IharTsykalaStaticBucket", {
-      bucketName: "task-2-cloudfront",
+      bucketName: "task-4-cloudfront",
       websiteIndexDocument: "index.html",
       publicReadAccess: false,
       autoDeleteObjects: true,
