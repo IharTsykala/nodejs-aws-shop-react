@@ -26,6 +26,7 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
   const uploadFile = async () => {
     console.log("uploadFile to", url);
 
+    console.log("file", file);
     if (file) {
       // Get the presigned URL
       const response = await axios({
@@ -35,6 +36,7 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
           name: encodeURIComponent(file.name),
         },
       });
+      console.log("response", response);
       console.log("File was uploaded: ", file.name);
       console.log("Uploading to: ", response.data.message);
       const result = await fetch(response.data.message, {
