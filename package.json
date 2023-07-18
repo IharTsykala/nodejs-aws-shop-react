@@ -11,8 +11,8 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint --ignore-path .gitignore --fix src",
     "prettier": "prettier src --write",
-    "deploy": "tsc --project tsconfig.cdk.json && cdk deploy --profile=IharTsykala --require-approval=never",
-    "bootstrap": "cdk bootstrap --profile=IharTsykala"
+    "deploy": "tsc --project tsconfig.cdk.json && cdk deploy --profile=IharTsykala23 --require-approval=never",
+    "bootstrap": "cdk bootstrap --profile=IharTsykala23"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
